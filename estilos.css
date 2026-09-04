@@ -1,0 +1,183 @@
+/*PARTE INICIAL DE LA PAGINA WEB (RECTANDULO CAFECITO)*/
+header {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+header p {
+  font-size: 16px;
+  color: whitesmoke;
+  max-width: 600px;
+  margin: 0 auto;
+}
+body {
+  background-color: white;
+}
+
+/* MENU BASICO CSS*/
+nav ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 0;
+    margin-top: 20px;
+}
+
+nav a{
+    color: whitesmoke;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+nav a:hover{
+    color: #cccccc;
+}
+
+/* DANDOLE FORMA Y ESTILO AL MENU DE REFERENCIAS */
+footer{
+    background-color: #1a1a1a;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+footer a{
+    color: #cccccc;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover{
+    color: white;
+    text-decoration: underline;
+} 
+footer ul{
+    list-style:none;
+    padding :0;
+}
+
+footer li{
+    margin: 8px 0;
+}
+/*PRUEBA DE TARJETAS PARA ORGANIZAR EL APARTADO DE LOS PRODUCTOS Y SERVICIOS (PARA Q´ SE VEA MAS ORDENADA)*/
+.grid-productos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding:0;
+    margin: 20px 0;
+}
+.grid-productos li{
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #331f0d;
+    transition: transform 0.2s;
+}
+.grid-productos li:hover {
+    transform: translate(-5px)
+}
+  
+/*Estos comandos nos ayudan a centrar las imagenes con su respectivo contenido*/
+section {
+  text-align: justify;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+section img {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+}
+
+/* le dice al footer q centre el texto, en este caso centra "referencias", ya que al ejecutar el comando anterior ordeno todo de manera diferente*/
+footer p {
+  margin-bottom: 0;
+}
+
+footer section {
+  text-align: center;
+  margin-top: 0;
+}
+/* les da una medida especifica a los links para q se vean alineados los demas titulos*/
+footer nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+footer nav li {
+  width: 220px;
+}
+
+/* tamaño pantalla por defecto para celulares */
+@media (max-width: 576px) {
+}
+/* tamaño pantalla por defecto para tablets */
+@media (min-width: 577px) and (max-width: 768px) {
+}
+/*tamaño pantalla por defecto notebooks */
+@media (min-width: 769px) and (max-width: 992px) {
+}
+/* tamaño pantalla por defecto desktop */
+@media (min-width: 993px) {
+}
+
+/*Creacion formulario de contacto en la pagina web*/
+#contacto form {
+  display: flex;
+  flex-direction: column;
+gap: 15px;
+max-width: 500px;
+margin: 20px auto 0;
+text-align: left;
+}
+.campo{
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+}
+.campo label{
+  font-weight: 500;
+  font-size: 14px;
+}
+.campo input,
+.campo textarea {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+}
+.campo input:focus,
+.campo textarea:focus{
+  outline: none;
+  border-color: #1a1a1a;
+}
+button[type="submit"]{
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius:6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button[type="submit"]:hover{
+  background-color: #333333;
+}

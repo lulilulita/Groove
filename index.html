@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groove - Tienda de Vinilos</title>
+    <link rel="stylesheet" href="estilos.css">
+    <li><a href="#contacto">Contacto</a></li>
 </head>
 <body>
     <!--encabezado-->
     <header>
         <h1>Groove</h1>
         <p>Tu tienda favorita especializada en la venta de discos de vinilo, tornamesas y cultura analogica en Chile.</p>
+        
+        <nav>
+            <ul>
+                <li><a href="#historia">Historia</a></li>
+                <li><a href="#ubicacion">Ubicación</a></li>
+                <li><a href="#productos">Productos y Servicios</a></li>
+            </ul>
+        </nav>
     </header>
 
     <!--Primera seccion -> pequeña historia de la tienda-->
     <main>
 
-        <section>
-         <h2>1. Breve historia de la tienda</h2>
+        <section id="historia">
+         <h2>Breve historia de la tienda</h2>
         <p>
             Groove fue fundada en el año 2025 por lo melómanos Benjamin y Luciana. La idea nació
             con la misión de rescatar la experiencia del audio analógico en Chile, ofreciendo
@@ -32,8 +42,8 @@
         </section>
         <hr>
         <!--Segunda seccion -> ubi y sucursales -->
-        <section>
-        <h2>2. Ubicación y sucursales</h2>
+        <section id="ubicacion">
+        <h2>Ubicación y sucursales</h2>
         <p>Encuentra nuestras tiendas físicas en los siguientes puntos del pais:</p>
             <ul>
                 <li>Sucursal Lastarria: José Victorino Lastarria 142, Santiago Centro, Chile. </li>
@@ -48,9 +58,9 @@
              width="700">
         </section>
         <hr>
-
-        <section>
-        <h2>3. Productos y Servicios </h2>
+        <!--Tercera seccion -> productos y servicios -->
+        <section id="productos">
+        <h2>Productos y Servicios </h2>
         <h3>Productos Disponibles en Groove</h3>
             <ul>
                 <li>Vinilos nuevos y reediciones de alta calidad.</li>
@@ -72,6 +82,30 @@
              width="700">
         </section>
 
+        <!--Formulario de contacto -->
+        <hr>
+        <section id="contacto">
+            <h2>Contactanos</h2>
+            <p>¿Tienes dudas o quieres cotizar algún producto? ¡Escríbenos!</p>
+
+            <form>
+                <div class = "campo">
+                    <label for="nombre">Nombre</label>
+                    <input type = "text" id="nombre" name="nombre" required>
+                </div>
+                <div class="campo">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="campo">
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                </div>
+
+                <button type="submit">Enviar mensaje</button>
+            </form>
+        </section>
+
     </main>
 
     <hr>
@@ -79,7 +113,7 @@
     <footer>
         <p>&copy; 2026.Groove Vinilos.Todos los derechos reservados.</p>
         <section>
-            <h2>4. Referencias</h2>
+            <h2>Referencias</h2>
             <nav aria-label="Enlaces de interés">
             <ul>
                 <li>
