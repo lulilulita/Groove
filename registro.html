@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario - Groove</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        .error-msg { color: #dc3545; font-size: 13px; display: block; margin-top: 2px; }
+        .form-container { max-width: 600px; margin: 30px auto; padding: 25px; background: #fdfdfd; border-radius: 8px; border: 1px solid #ddd; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .campo { margin-bottom: 15px; }
+        .campo label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        @media(max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header>
+    <div class="nav-top">
+        <div class="logo">Groove</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div id="usuario-nav"></div>
+            <div class="carrito">
+                <a href="carrito.html">🛒 Cart (<span id="carrito-cantidad">0</span>)</a>
+            </div>
+        </div>
+    </div>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2 style="text-align: center;">Registro de Usuario</h2>
+            <form id="form-registro" novalidate>
+                <div class="campo">
+                    <label for="run">RUN (Sin puntos ni guión, Ej: 19011022K) *</label>
+                    <input type="text" id="run" name="run" placeholder="19011022K" maxlength="9">
+                    <span class="error-msg" id="err-run"></span>
+                </div>
+
+                <div class="grid-2">
+                    <div class="campo">
+                        <label for="nombre">Nombre *</label>
+                        <input type="text" id="nombre" name="nombre" maxlength="50">
+                        <span class="error-msg" id="err-nombre"></span>
+                    </div>
+                    <div class="campo">
+                        <label for="apellidos">Apellidos *</label>
+                        <input type="text" id="apellidos" name="apellidos" maxlength="100">
+                        <span class="error-msg" id="err-apellidos"></span>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="correo">Correo Electrónico *</label>
+                    <input type="email" id="correo" name="correo" placeholder="ejemplo@duoc.cl" maxlength="100">
+                    <span class="error-msg" id="err-correo"></span>
+                </div>
+
+                <div class="grid-2">
+                    <div class="campo">
+                        <label for="password">Contraseña (4-10 caracteres) *</label>
+                        <input type="password" id="password" name="password" maxlength="10">
+                        <span class="error-msg" id="err-password"></span>
+                    </div>
+                    <div class="campo">
+                        <label for="confirm-password">Confirmar Contraseña *</label>
+                        <input type="password" id="confirm-password" name="confirm-password" maxlength="10">
+                        <span class="error-msg" id="err-confirm-password"></span>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="fecha-nac">Fecha de Nacimiento (Opcional)</label>
+                    <input type="date" id="fecha-nac" name="fecha-nac">
+                </div>
+
+                <div class="grid-2">
+                    <div class="campo">
+                        <label for="region">Región *</label>
+                        <select id="region" name="region"></select>
+                        <span class="error-msg" id="err-region"></span>
+                    </div>
+                    <div class="campo">
+                        <label for="comuna">Comuna *</label>
+                        <select id="comuna" name="comuna">
+                            <option value="">-- Seleccione una Comuna --</option>
+                        </select>
+                        <span class="error-msg" id="err-comuna"></span>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="direccion">Dirección *</label>
+                    <input type="text" id="direccion" name="direccion" placeholder="Av. Italia 1234, Dpto 201" maxlength="300">
+                    <span class="error-msg" id="err-direccion"></span>
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 10px; background: #1a1a1a; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Registrarse</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 15px;">¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+        </div>
+    </main>
+
+    <hr>
+    <footer>
+        <p>&copy; 2026. Groove Vinilos. Todos los derechos reservados.</p>
+        <section>
+            <h2>Referencias</h2>
+            <nav aria-label="Enlaces de interés">
+                <ul>
+                    <li><a href="https://www.discogs.com" target="_blank" rel="noopener noreferrer">Discogs - Catálogo mundial de Vinilos</a></li>
+                    <li><a href="https://www.riaa.com" target="_blank" rel="noopener noreferrer">RIAA - Asociación de la Industria Discográfica</a></li>
+                    <li><a href="https://www.recordstoreday.com" target="_blank" rel="noopener noreferrer">Record Store Day - Celebración mundial del disco físico</a></li>
+                </ul>
+            </nav>
+        </section>
+    </footer>
+
+    <!-- Scripts en el orden adecuado -->
+    <script src="js/carrito.js"></script>
+    <script src="js/regiones-comunas.js"></script>
+    <script src="js/validaciones-helper.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Carga dinámica de regiones y comunas
+            if (typeof cargarRegiones === "function") {
+                cargarRegiones("region", "comuna");
+            }
+        });
+
+        document.getElementById("form-registro").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let valido = true;
+
+            // Limpiar mensajes anteriores
+            document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+
+            const run = document.getElementById("run").value;
+            const nombre = document.getElementById("nombre").value;
+            const apellidos = document.getElementById("apellidos").value;
+            const correo = document.getElementById("correo").value;
+            const pass = document.getElementById("password").value;
+            const confirmPass = document.getElementById("confirm-password").value;
+            const region = document.getElementById("region").value;
+            const comuna = document.getElementById("comuna").value;
+            const direccion = document.getElementById("direccion").value;
+
+            // Validaciones
+            if (!run.trim() || (typeof esRunValido === "function" && !esRunValido(run))) {
+                document.getElementById("err-run").textContent = "RUN inválido. Formato: 7-8 dígitos + DV sin puntos ni guión (Ej: 19011022K).";
+                valido = false;
+            }
+
+            if (!nombre.trim()) {
+                document.getElementById("err-nombre").textContent = "El nombre es obligatorio.";
+                valido = false;
+            }
+
+            if (!apellidos.trim()) {
+                document.getElementById("err-apellidos").textContent = "Los apellidos son obligatorios.";
+                valido = false;
+            }
+
+            if (typeof esCorreoValido === "function" && !esCorreoValido(correo)) {
+                document.getElementById("err-correo").textContent = "Correo inválido. Permitidos: @duoc.cl, @profesor.duoc.cl, @gmail.com.";
+                valido = false;
+            }
+
+            if (pass.length < 4 || pass.length > 10) {
+                document.getElementById("err-password").textContent = "La contraseña debe tener entre 4 y 10 caracteres.";
+                valido = false;
+            }
+
+            if (pass !== confirmPass) {
+                document.getElementById("err-confirm-password").textContent = "Las contraseñas no coinciden.";
+                valido = false;
+            }
+
+            if (!region) {
+                document.getElementById("err-region").textContent = "Debe seleccionar una región.";
+                valido = false;
+            }
+
+            if (!comuna) {
+                document.getElementById("err-comuna").textContent = "Debe seleccionar una comuna.";
+                valido = false;
+            }
+
+            if (!direccion.trim()) {
+                document.getElementById("err-direccion").textContent = "La dirección es obligatoria.";
+                valido = false;
+            }
+
+            // Guardar datos en localStorage al pasar las validaciones
+            if (valido) {
+                const usuarios = JSON.parse(localStorage.getItem("usuarios_groove")) || [];
+
+                const existe = usuarios.some(u => u.email === correo.toLowerCase());
+                if (existe) {
+                    document.getElementById("err-correo").textContent = "Este correo ya se encuentra registrado.";
+                    return;
+                }
+
+                const nuevoUsuario = {
+                    run: run,
+                    nombre: `${nombre} ${apellidos}`,
+                    email: correo.toLowerCase(),
+                    password: pass,
+                    region: region,
+                    comuna: comuna,
+                    direccion: direccion
+                };
+
+                usuarios.push(nuevoUsuario);
+                localStorage.setItem("usuarios_groove", JSON.stringify(usuarios));
+
+                alert("¡Usuario registrado con éxito! Redirigiendo al inicio de sesión...");
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Producto - Groove</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+    <div class="nav-top">
+        <div class="logo">Groove</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div id="usuario-nav"></div>
+            <div class="carrito">
+                <a href="carrito.html">🛒 Cart (<span id="carrito-cantidad">0</span>)</a>
+            </div>
+        </div>
+    </div>
+    </header>
+
+    <main>
+        <p class="migas"><a href="index.html">Home</a> &gt; <a href="productos.html">Productos</a> &gt; <span id="detalle-nombre-miga">Vinilo Edición Especial</span></p>
+
+        <section id="detalle-producto">
+            <div class="detalle-contenedor">
+
+                <div class="detalle-imagen">
+                    <img id="detalle-img" src="https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=600" alt="Producto">
+                </div>
+
+                <div class="detalle-info">
+                    <h2 id="detalle-nombre">Vinilo Edición Especial</h2>
+                    <p class="detalle-precio" id="detalle-precio">$15.000</p>
+                    <p class="detalle-codigo">Código: <span id="detalle-codigo">VIN-001</span></p>
+
+                    <p id="detalle-descripcion">
+                        Edición especial en vinilo de 180 gramos, con empaque de lujo y
+                        sonido de altísima fidelidad. Ideal para coleccionistas.
+                    </p>
+
+                    <div class="detalle-cantidad">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" id="cantidad" name="cantidad" value="1" min="1">
+                    </div>
+
+                    <button class="btn-añadir" id="btn-añadir-detalle">Añadir al carrito</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <hr>
+    <footer>
+        <p>&copy; 2026. Groove Vinilos. Todos los derechos reservados.</p>
+        <section>
+            <h2>Referencias</h2>
+            <nav aria-label="Enlaces de interés">
+                <ul>
+                    <li><a href="https://www.discogs.com" target="_blank" rel="noopener noreferrer">Discogs - Catálogo mundial de Vinilos</a></li>
+                    <li><a href="https://www.riaa.com" target="_blank" rel="noopener noreferrer">RIAA - Asociación de la Industria Discográfica</a></li>
+                    <li><a href="https://www.recordstoreday.com" target="_blank" rel="noopener noreferrer">Record Store Day - Celebración mundial del disco físico</a></li>
+                </ul>
+            </nav>
+        </section>
+    </footer>
+
+    <!-- Scripts en el orden correcto -->
+    <script src="js/productos-data.js"></script>
+    <script src="js/carrito.js"></script> 
+    <script src="js/detalle-producto.js"></script> 
+</body>
+</html>

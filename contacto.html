@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Groove</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        .error-msg { color: #dc3545; font-size: 13px; display: block; margin-top: 2px; }
+        .form-container { max-width: 600px; margin: 40px auto; padding: 25px; background: #fdfdfd; border-radius: 8px; border: 1px solid #ddd; }
+        .campo { margin-bottom: 15px; }
+        .campo label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .campo input, .campo textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .campo textarea { height: 120px; resize: vertical; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-top">
+            <div class="logo">Groove</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="blogs.html">Blogs</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div id="usuario-nav"></div>
+                <div class="carrito">
+                    <a href="carrito.html">🛒 Cart (<span id="carrito-cantidad">0</span>)</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2 style="text-align: center;">Contáctanos</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 20px;">¿Tienes dudas sobre algún vinilo o pedido? Escríbenos.</p>
+            
+            <form id="form-contacto" novalidate>
+                <div class="campo">
+                    <label for="contacto-nombre">Nombre Completo *</label>
+                    <input type="text" id="contacto-nombre" name="nombre">
+                    <span class="error-msg" id="err-contacto-nombre"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="contacto-email">Correo Electrónico *</label>
+                    <input type="email" id="contacto-email" name="email" placeholder="ejemplo@duoc.cl">
+                    <span class="error-msg" id="err-contacto-email"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="contacto-asunto">Asunto *</label>
+                    <input type="text" id="contacto-asunto" name="asunto" placeholder="Ej: Consulta sobre stock">
+                    <span class="error-msg" id="err-contacto-asunto"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="contacto-mensaje">Mensaje *</label>
+                    <textarea id="contacto-mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí..."></textarea>
+                    <span class="error-msg" id="err-contacto-mensaje"></span>
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 10px; background: #1a1a1a; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Enviar Mensaje</button>
+            </form>
+        </div>
+    </main>
+
+    <hr>
+    <footer>
+        <p>&copy; 2026. Groove Vinilos. Todos los derechos reservados.</p>
+        <section>
+            <h2>Referencias</h2>
+            <nav aria-label="Enlaces de interés">
+                <ul>
+                    <li><a href="https://www.discogs.com" target="_blank" rel="noopener noreferrer">Discogs - Catálogo mundial de Vinilos</a></li>
+                    <li><a href="https://www.riaa.com" target="_blank" rel="noopener noreferrer">RIAA - Asociación de la Industria Discográfica</a></li>
+                    <li><a href="https://www.recordstoreday.com" target="_blank" rel="noopener noreferrer">Record Store Day - Celebración mundial del disco físico</a></li>
+                </ul>
+            </nav>
+        </section>
+    </footer>
+
+    <script src="js/validaciones-helper.js"></script>
+    <script src="js/carrito.js"></script>
+    <script>
+        document.getElementById("form-contacto").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let valido = true;
+
+            document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+
+            const nombre = document.getElementById("contacto-nombre").value;
+            const email = document.getElementById("contacto-email").value;
+            const asunto = document.getElementById("contacto-asunto").value;
+            const mensaje = document.getElementById("contacto-mensaje").value;
+
+            if (!nombre.trim()) {
+                document.getElementById("err-contacto-nombre").textContent = "El nombre es obligatorio.";
+                valido = false;
+            }
+
+            if (typeof esCorreoValido === "function") {
+                if (!esCorreoValido(email)) {
+                    document.getElementById("err-contacto-email").textContent = "Correo inválido. Permitidos: @duoc.cl, @profesor.duoc.cl, @gmail.com.";
+                    valido = false;
+                }
+            } else if (!email.trim() || !email.includes("@")) {
+                document.getElementById("err-contacto-email").textContent = "Ingresa un correo electrónico válido.";
+                valido = false;
+            }
+
+            if (!asunto.trim()) {
+                document.getElementById("err-contacto-asunto").textContent = "El asunto es obligatorio.";
+                valido = false;
+            }
+
+            if (!mensaje.trim()) {
+                document.getElementById("err-contacto-mensaje").textContent = "El mensaje no puede estar vacío.";
+                valido = false;
+            }
+
+            if (valido) {
+                alert("¡Mensaje enviado con éxito! Te responderemos a la brevedad.");
+                this.reset();
+            }
+        });
+    </script>
+</body>
+</html>

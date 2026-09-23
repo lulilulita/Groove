@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Groove</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <div class="nav-top">
+            <div class="logo">Groove</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="blogs.html">Blogs</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div id="usuario-nav"></div>
+                <div class="carrito">
+                    <a href="carrito.html">🛒 Cart (<span id="carrito-cantidad">0</span>)</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="catalogo">
+            <h2>Nuestros productos</h2>
+            <p>Explora nuestro catálogo completo de vinilos, tornamesas y accesorios.</p>
+
+            <div class="grid-productos-tienda">
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=VIN-001">
+                        <img src="https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=400" alt="Vinilo edición especial">
+                        <h3>Vinilo Edición Especial</h3>
+                    </a>
+                    <p class="precio">$15.000</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('VIN-001', 'Vinilo Edición Especial', 15000)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=TOR-001">
+                        <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?w=400" alt="Tornamesa clásica">
+                        <h3>Tornamesa Clásica</h3>
+                    </a>
+                    <p class="precio">$89.990</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('TOR-001', 'Tornamesa Clásica', 89990)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=ACC-001">
+                        <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=400" alt="Kit de limpieza">
+                        <h3>Kit de Limpieza</h3>
+                    </a>
+                    <p class="precio">$8.500</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('ACC-001', 'Kit de Limpieza', 8500)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=ACC-002">
+                        <img src="https://images.unsplash.com/photo-1633109741715-4e59b1e4c9a6?w=400" alt="Aguja de repuesto">
+                        <h3>Aguja de Repuesto</h3>
+                    </a>
+                    <p class="precio">$12.000</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('ACC-002', 'Aguja de Repuesto', 12000)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=VIN-002">
+                        <img src="https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?w=400" alt="Vinilo Jazz clásico">
+                        <h3>Vinilo Jazz Clásico</h3>
+                    </a>
+                    <p class="precio">$18.000</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('VIN-002', 'Vinilo Jazz Clásico', 18000)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=VIN-003">
+                        <img src="https://images.unsplash.com/photo-1483393458738-b8a05fd4b1f9?w=400" alt="Vinilo Rock 70s">
+                        <h3>Vinilo Rock 70's</h3>
+                    </a>
+                    <p class="precio">$16.500</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('VIN-003', 'Vinilo Rock 70\'s', 16500)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=AMP-001">
+                        <img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=400" alt="Amplificador">
+                        <h3>Amplificador de Audio</h3>
+                    </a>
+                    <p class="precio">$65.000</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('AMP-001', 'Amplificador de Audio', 65000)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=ACC-003">
+                        <img src="https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=400" alt="Funda protectora">
+                        <h3>Funda Protectora (x10)</h3>
+                    </a>
+                    <p class="precio">$6.000</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('ACC-003', 'Funda Protectora (x10)', 6000)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=ACC-004">
+                        <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=400" alt="Cepillo antiestático">
+                        <h3>Cepillo Antiestático</h3>
+                    </a>
+                    <p class="precio">$5.500</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('ACC-004', 'Cepillo Antiestático', 5500)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=VIN-004">
+                        <img src="https://images.unsplash.com/photo-1615247001958-f4bc92fa6a4a?w=400" alt="Vinilo edición limitada">
+                        <h3>Vinilo Edición Limitada</h3>
+                    </a>
+                    <p class="precio">$22.000</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('VIN-004', 'Vinilo Edición Limitada', 22000)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=TOR-002">
+                        <img src="https://images.unsplash.com/photo-1615751072497-5f5169febe17?w=400" alt="Tornamesa portátil">
+                        <h3>Tornamesa Portátil</h3>
+                    </a>
+                    <p class="precio">$54.990</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('TOR-002', 'Tornamesa Portátil', 54990)">Añadir</button>
+                </div>
+
+                <div class="producto-card">
+                    <a href="detalle-producto.html?codigo=ACC-005">
+                        <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=400" alt="Kit completo de mantención">
+                        <h3>Kit Completo de Mantención</h3>
+                    </a>
+                    <p class="precio">$25.000</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('ACC-005', 'Kit Completo de Mantención', 25000)">Añadir</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <hr>
+    <footer>
+        <p>&copy; 2026. Groove Vinilos. Todos los derechos reservados.</p>
+        <section>
+            <h2>Referencias</h2>
+            <nav aria-label="Enlaces de interés">
+                <ul>
+                    <li><a href="https://www.discogs.com" target="_blank" rel="noopener noreferrer">Discogs - Catálogo mundial de Vinilos</a></li>
+                    <li><a href="https://www.riaa.com" target="_blank" rel="noopener noreferrer">RIAA - Asociación de la Industria Discográfica</a></li>
+                    <li><a href="https://www.recordstoreday.com" target="_blank" rel="noopener noreferrer">Record Store Day - Celebración mundial del disco físico</a></li>
+                </ul>
+            </nav>
+        </section>
+    </footer>
+
+    <script src="js/carrito.js"></script>
+</body>
+</html>

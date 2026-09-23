@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Groove</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        .tabla-carrito { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .tabla-carrito th, .tabla-carrito td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .tabla-carrito th { background-color: #f4f4f4; }
+        .btn-accion { padding: 5px 10px; cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 3px; }
+        .btn-eliminar { background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        .resumen-compra { max-width: 400px; margin-left: auto; margin-top: 25px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #fdfdfd; }
+        .modal-checkout { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+        .modal-contenido { background: white; padding: 30px; border-radius: 8px; max-width: 500px; width: 90%; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-top">
+            <div class="logo">Groove</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="blogs.html">Blogs</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div id="usuario-nav"></div>
+                <div class="carrito">
+                    <a href="carrito.html">🛒 Cart (<span id="carrito-cantidad">0</span>)</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 1000px; margin: 30px auto; padding: 0 20px;">
+        <h2>Tu Carrito de Compras</h2>
+
+        <div id="contenedor-carrito">
+            <table class="tabla-carrito">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-carrito">
+                    <!-- Productos cargados mediante JS -->
+                </tbody>
+            </table>
+
+            <div class="resumen-compra">
+                <h3>Resumen de la Orden</h3>
+                <p style="font-size: 18px; font-weight: bold;">Total: $<span id="total-compra">0</span></p>
+                <button id="btn-checkout" onclick="abrirCheckout()" style="width: 100%; padding: 12px; background: #1a1a1a; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Finalizar Compra</button>
+            </div>
+        </div>
+
+        <div id="carrito-vacio-msg" style="display:none; text-align: center; margin: 50px 0;">
+            <p style="font-size: 18px;">Tu carrito está vacío actualmente.</p>
+            <a href="productos.html" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background: #1a1a1a; color: white; text-decoration: none; border-radius: 4px;">Explorar Productos</a>
+        </div>
+    </main>
+
+    <!-- Ventana emergente de pago (Modal Checkout) -->
+    <div id="modal-checkout" class="modal-checkout">
+        <div class="modal-contenido">
+            <h3>Confirmación de Envío y Pago</h3>
+            <form id="form-pago">
+                <div style="margin-bottom: 12px;">
+                    <label style="display:block; font-weight:bold;">Dirección de Despacho *</label>
+                    <input type="text" id="pago-direccion" required placeholder="Av. Italia 1234, Dpto 201" style="width: 100%; padding: 8px; box-sizing: border-box;">
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="display:block; font-weight:bold;">Método de Pago *</label>
+                    <select id="pago-metodo" required style="width: 100%; padding: 8px;">
+                        <option value="debito">Tarjeta de Débito (WebPay)</option>
+                        <option value="credito">Tarjeta de Crédito</option>
+                        <option value="transferencia">Transferencia Bancaria</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" style="flex: 1; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Pagar Ahora</button>
+                    <button type="button" onclick="cerrarCheckout()" style="flex: 1; padding: 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+    <footer>
+        <p>&copy; 2026. Groove Vinilos. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/carrito.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", renderizarTablaCarrito);
+
+        function renderizarTablaCarrito() {
+            const carrito = obtenerCarrito();
+            const tbody = document.getElementById("lista-carrito");
+            const contenedor = document.getElementById("contenedor-carrito");
+            const msgVacio = document.getElementById("carrito-vacio-msg");
+            const totalEl = document.getElementById("total-compra");
+
+            if (!tbody) return;
+
+            if (carrito.length === 0) {
+                contenedor.style.display = "none";
+                msgVacio.style.display = "block";
+                return;
+            }
+
+            contenedor.style.display = "block";
+            msgVacio.style.display = "none";
+            tbody.innerHTML = "";
+
+            carrito.forEach(item => {
+                const tr = document.createElement("tr");
+                const subtotal = item.precio * item.cantidad;
+
+                tr.innerHTML = `
+                    <td><strong>${item.nombre}</strong><br><small>Código: ${item.codigo}</small></td>
+                    <td>$${item.precio.toLocaleString("es-CL")}</td>
+                    <td>
+                        <button class="btn-accion" onclick="cambiarCantidad('${item.codigo}', ${item.cantidad - 1})">-</button>
+                        <span style="margin: 0 8px;">${item.cantidad}</span>
+                        <button class="btn-accion" onclick="cambiarCantidad('${item.codigo}', ${item.cantidad + 1})">+</button>
+                    </td>
+                    <td>$${subtotal.toLocaleString("es-CL")}</td>
+                    <td><button class="btn-eliminar" onclick="borrarProducto('${item.codigo}')">Eliminar</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            totalEl.textContent = calcularTotal().toLocaleString("es-CL");
+        }
+
+        function cambiarCantidad(codigo, nuevaCantidad) {
+            actualizarCantidad(codigo, nuevaCantidad);
+            renderizarTablaCarrito();
+        }
+
+        function borrarProducto(codigo) {
+            eliminarDelCarrito(codigo);
+            renderizarTablaCarrito();
+        }
+
+        function abrirCheckout() {
+            const usuarioActivo = JSON.parse(localStorage.getItem("usuario_activo"));
+            if (!usuarioActivo) {
+                alert("Debes iniciar sesión para finalizar tu compra.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            // Auto-rellenar la dirección si venía guardada del registro
+            if (usuarioActivo.direccion) {
+                document.getElementById("pago-direccion").value = usuarioActivo.direccion;
+            }
+
+            document.getElementById("modal-checkout").style.display = "flex";
+        }
+
+        function cerrarCheckout() {
+            document.getElementById("modal-checkout").style.display = "none";
+        }
+
+        document.getElementById("form-pago").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            alert("¡Gracias por tu compra en Groove! Tu pedido ha sido procesado con éxito.");
+            
+            // Vaciar el carrito y actualizar la vista
+            localStorage.removeItem("carritoGroove");
+            actualizarContadorCarrito();
+            cerrarCheckout();
+            renderizarTablaCarrito();
+        });
+    </script>
+</body>
+</html>
