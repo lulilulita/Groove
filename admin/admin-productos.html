@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos - Groove Admin</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        .admin-layout { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 220px; background: #1a1a1a; color: white; padding: 20px 0; flex-shrink: 0; }
+        .admin-sidebar .logo-admin { padding: 0 20px 20px; font-size: 20px; font-weight: bold; border-bottom: 1px solid #333; margin-bottom: 10px; }
+        .admin-sidebar a { display: block; padding: 12px 20px; color: #cccccc; text-decoration: none; }
+        .admin-sidebar a:hover, .admin-sidebar a.activo { background: #333; color: white; }
+        .admin-contenido { flex: 1; padding: 30px; text-align: left; }
+
+        .tabla-admin { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .tabla-admin th, .tabla-admin td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+        .tabla-admin th { background: #f4f4f4; }
+        .btn-mini { padding: 5px 10px; font-size: 13px; border-radius: 4px; border: none; cursor: pointer; margin-right: 5px; }
+        .btn-editar { background: #1a1a1a; color: white; }
+        .btn-eliminar { background: #dc3545; color: white; }
+
+        .form-admin { max-width: 500px; margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px; }
+        .form-admin .campo { margin-bottom: 12px; }
+        .form-admin label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 14px; }
+        .form-admin input, .form-admin select, .form-admin textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .error-msg { color: #dc3545; font-size: 13px; display: block; margin-top: 2px; }
+
+        @media (max-width: 700px) {
+            .admin-layout { flex-direction: column; }
+            .admin-sidebar { width: 100%; }
+            .tabla-admin { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="logo-admin">Groove Admin</div>
+            <a href="admin-home.html">🏠 Inicio</a>
+            <a href="admin-productos.html" class="activo">📀 Productos</a>
+            <a href="admin-usuarios.html">👤 Usuarios</a>
+            <a href="../index.html">← Volver a la tienda</a>
+        </aside>
+
+        <main class="admin-contenido">
+            <h2>Gestión de Productos</h2>
+
+            <table class="tabla-admin">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-productos-admin">
+                    <!-- Se llena con JS -->
+                </tbody>
+            </table>
+
+            <h3 id="titulo-form">Agregar nuevo producto</h3>
+            <form id="form-producto" class="form-admin" novalidate>
+                <input type="hidden" id="prod-codigo-original">
+
+                <div class="campo">
+                    <label for="prod-codigo">Código producto *</label>
+                    <input type="text" id="prod-codigo" minlength="3">
+                    <span class="error-msg" id="err-prod-codigo"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="prod-nombre">Nombre *</label>
+                    <input type="text" id="prod-nombre" maxlength="100">
+                    <span class="error-msg" id="err-prod-nombre"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="prod-descripcion">Descripción</label>
+                    <textarea id="prod-descripcion" maxlength="500" rows="3"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="prod-precio">Precio *</label>
+                    <input type="number" id="prod-precio" min="0" step="1">
+                    <span class="error-msg" id="err-prod-precio"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="prod-imagen">URL Imagen</label>
+                    <input type="text" id="prod-imagen">
+                </div>
+
+                <button type="submit" style="width:100%; padding:10px; background:#1a1a1a; color:white; border:none; border-radius:4px; cursor:pointer;">Guardar</button>
+                <button type="button" id="btn-cancelar-edicion" style="width:100%; padding:10px; margin-top:8px; background:#eee; border:none; border-radius:4px; cursor:pointer; display:none;">Cancelar edición</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="../js/productos-data.js"></script>
+    <script>
+        // productosExtra guarda lo que el admin crea/edita desde este panel,
+        // separado del arreglo original productos-data.js
+        function obtenerProductosExtra() {
+            const datos = localStorage.getItem("productos_admin_extra");
+            return datos ? JSON.parse(datos) : [];
+        }
+
+        function guardarProductosExtra(lista) {
+            localStorage.setItem("productos_admin_extra", JSON.stringify(lista));
+        }
+
+        function obtenerTodosLosProductos() {
+            // Combina el catálogo original con lo agregado/editado desde el admin
+            const extra = obtenerProductosExtra();
+            const combinados = [...productos];
+
+            extra.forEach(p => {
+                const idx = combinados.findIndex(c => c.codigo === p.codigo);
+                if (idx >= 0) combinados[idx] = p;
+                else combinados.push(p);
+            });
+
+            return combinados;
+        }
+
+        function renderizarTablaProductos() {
+            const lista = obtenerTodosLosProductos();
+            const tbody = document.getElementById("lista-productos-admin");
+            tbody.innerHTML = "";
+
+            lista.forEach(p => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${p.codigo}</td>
+                    <td>${p.nombre}</td>
+                    <td>$${p.precio.toLocaleString("es-CL")}</td>
+                    <td>
+                        <button class="btn-mini btn-editar" onclick="cargarParaEditar('${p.codigo}')">Editar</button>
+                        <button class="btn-mini btn-eliminar" onclick="eliminarProducto('${p.codigo}')">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(fila);
+            });
+        }
+
+        function cargarParaEditar(codigo) {
+            const lista = obtenerTodosLosProductos();
+            const p = lista.find(p => p.codigo === codigo);
+            if (!p) return;
+
+            document.getElementById("titulo-form").textContent = "Editar producto";
+            document.getElementById("prod-codigo-original").value = p.codigo;
+            document.getElementById("prod-codigo").value = p.codigo;
+            document.getElementById("prod-nombre").value = p.nombre;
+            document.getElementById("prod-descripcion").value = p.descripcion || "";
+            document.getElementById("prod-precio").value = p.precio;
+            document.getElementById("prod-imagen").value = p.imagen || "";
+            document.getElementById("btn-cancelar-edicion").style.display = "block";
+
+            window.scrollTo({ top: document.getElementById("form-producto").offsetTop, behavior: "smooth" });
+        }
+
+        function eliminarProducto(codigo) {
+            if (!confirm("¿Seguro que quieres eliminar este producto?")) return;
+
+            let extra = obtenerProductosExtra();
+            extra = extra.filter(p => p.codigo !== codigo);
+
+            // Si el producto era del catálogo original, lo marcamos como "eliminado"
+            const eraOriginal = productos.some(p => p.codigo === codigo);
+            if (eraOriginal) {
+                extra.push({ codigo: codigo, eliminado: true });
+            }
+
+            guardarProductosExtra(extra);
+            renderizarTablaProductos();
+        }
+
+        function limpiarFormulario() {
+            document.getElementById("titulo-form").textContent = "Agregar nuevo producto";
+            document.getElementById("form-producto").reset();
+            document.getElementById("prod-codigo-original").value = "";
+            document.getElementById("btn-cancelar-edicion").style.display = "none";
+            document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+        }
+
+        document.getElementById("btn-cancelar-edicion").addEventListener("click", limpiarFormulario);
+
+        document.getElementById("form-producto").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let valido = true;
+            document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+
+            const codigoOriginal = document.getElementById("prod-codigo-original").value;
+            const codigo = document.getElementById("prod-codigo").value.trim();
+            const nombre = document.getElementById("prod-nombre").value.trim();
+            const descripcion = document.getElementById("prod-descripcion").value.trim();
+            const precio = parseFloat(document.getElementById("prod-precio").value);
+            const imagen = document.getElementById("prod-imagen").value.trim();
+
+            if (codigo.length < 3) {
+                document.getElementById("err-prod-codigo").textContent = "El código debe tener al menos 3 caracteres.";
+                valido = false;
+            }
+
+            if (!nombre) {
+                document.getElementById("err-prod-nombre").textContent = "El nombre es obligatorio (máx. 100 caracteres).";
+                valido = false;
+            }
+
+            if (isNaN(precio) || precio < 0) {
+                document.getElementById("err-prod-precio").textContent = "El precio debe ser un número mayor o igual a 0.";
+                valido = false;
+            }
+
+            if (!valido) return;
+
+            let extra = obtenerProductosExtra();
+            extra = extra.filter(p => p.codigo !== codigoOriginal && p.codigo !== codigo);
+
+            extra.push({
+                codigo, nombre, descripcion, precio,
+                imagen: imagen || "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=600"
+            });
+
+            guardarProductosExtra(extra);
+            renderizarTablaProductos();
+            limpiarFormulario();
+            alert("Producto guardado con éxito.");
+        });
+
+        renderizarTablaProductos();
+    </script>
+</body>
+</html>
