@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Groove Admin</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        body { margin: 0; }
+        .admin-layout { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 220px; background: #1a1a1a; color: white; padding: 20px 0; flex-shrink: 0; }
+        .admin-sidebar .logo-admin { padding: 0 20px 20px; font-size: 20px; font-weight: bold; border-bottom: 1px solid #333; margin-bottom: 10px; }
+        .admin-sidebar a { display: block; padding: 12px 20px; color: #cccccc; text-decoration: none; }
+        .admin-sidebar a:hover, .admin-sidebar a.activo { background: #333; color: white; }
+        .admin-contenido { flex: 1; padding: 30px; text-align: left; }
+
+        .tabla-admin { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .tabla-admin th, .tabla-admin td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+        .tabla-admin th { background: #f4f4f4; }
+        .btn-mini { padding: 5px 10px; font-size: 13px; border-radius: 4px; border: none; cursor: pointer; margin-right: 5px; }
+        .btn-editar { background: #1a1a1a; color: white; }
+        .btn-eliminar { background: #dc3545; color: white; }
+
+        .form-admin { max-width: 500px; margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px; }
+        .form-admin .campo { margin-bottom: 12px; }
+        .form-admin label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 14px; }
+        .form-admin input, .form-admin select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .error-msg { color: #dc3545; font-size: 13px; display: block; margin-top: 2px; }
+
+        @media (max-width: 700px) {
+            .admin-layout { flex-direction: column; }
+            .admin-sidebar { width: 100%; }
+            .tabla-admin { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="logo-admin">Groove Admin</div>
+            <a href="admin-home.html">🏠 Inicio</a>
+            <a href="admin-productos.html">📀 Productos</a>
+            <a href="admin-usuarios.html" class="activo">👤 Usuarios</a>
+            <a href="../index.html">← Volver a la tienda</a>
+        </aside>
+
+        <main class="admin-contenido">
+            <h2>Gestión de Usuarios</h2>
+
+            <table class="tabla-admin">
+                <thead>
+                    <tr>
+                        <th>RUN</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Tipo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-usuarios-admin">
+                    <!-- Se llena con JS -->
+                </tbody>
+            </table>
+
+            <h3 id="titulo-form-usuario">Agregar nuevo usuario</h3>
+            <form id="form-usuario" class="form-admin" novalidate>
+                <input type="hidden" id="user-correo-original">
+
+                <div class="campo">
+                    <label for="user-run">RUN (sin puntos ni guión) *</label>
+                    <input type="text" id="user-run" maxlength="9">
+                    <span class="error-msg" id="err-user-run"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="user-nombre">Nombre completo *</label>
+                    <input type="text" id="user-nombre" maxlength="150">
+                    <span class="error-msg" id="err-user-nombre"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="user-correo">Correo *</label>
+                    <input type="email" id="user-correo" maxlength="100">
+                    <span class="error-msg" id="err-user-correo"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="user-direccion">Dirección *</label>
+                    <input type="text" id="user-direccion" maxlength="300">
+                    <span class="error-msg" id="err-user-direccion"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="user-tipo">Tipo de Usuario *</label>
+                    <select id="user-tipo">
+                        <option value="cliente">Cliente</option>
+                        <option value="vendedor">Vendedor</option>
+                        <option value="administrador">Administrador</option>
+                    </select>
+                </div>
+
+                <button type="submit" style="width:100%; padding:10px; background:#1a1a1a; color:white; border:none; border-radius:4px; cursor:pointer;">Guardar</button>
+                <button type="button" id="btn-cancelar-edicion-usuario" style="width:100%; padding:10px; margin-top:8px; background:#eee; border:none; border-radius:4px; cursor:pointer; display:none;">Cancelar edición</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="../js/validaciones.js"></script>
+    <script>
+        function obtenerUsuarios() {
+            const datos = localStorage.getItem("usuarios_groove");
+            return datos ? JSON.parse(datos) : [];
+        }
+
+        function guardarUsuarios(lista) {
+            localStorage.setItem("usuarios_groove", JSON.stringify(lista));
+        }
+
+        function renderizarTablaUsuarios() {
+            const lista = obtenerUsuarios();
+            const tbody = document.getElementById("lista-usuarios-admin");
+            tbody.innerHTML = "";
+
+            if (lista.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5">Todavía no hay usuarios registrados.</td></tr>`;
+                return;
+            }
+
+            lista.forEach(u => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${u.run || "-"}</td>
+                    <td>${u.nombre}</td>
+                    <td>${u.email}</td>
+                    <td>${u.tipo || "cliente"}</td>
+                    <td>
+                        <button class="btn-mini btn-editar" onclick="cargarUsuarioParaEditar('${u.email}')">Editar</button>
+                        <button class="btn-mini btn-eliminar" onclick="eliminarUsuario('${u.email}')">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(fila);
+            });
+        }
+
+        function cargarUsuarioParaEditar(email) {
+            const lista = obtenerUsuarios();
+            const u = lista.find(u => u.email === email);
+            if (!u) return;
+
+            document.getElementById("titulo-form-usuario").textContent = "Editar usuario";
+            document.getElementById("user-correo-original").value = u.email;
+            document.getElementById("user-run").value = u.run || "";
+            document.getElementById("user-nombre").value = u.nombre || "";
+            document.getElementById("user-correo").value = u.email || "";
+            document.getElementById("user-direccion").value = u.direccion || "";
+            document.getElementById("user-tipo").value = u.tipo || "cliente";
+            document.getElementById("btn-cancelar-edicion-usuario").style.display = "block";
+
+            window.scrollTo({ top: document.getElementById("form-usuario").offsetTop, behavior: "smooth" });
+        }
+
+        function eliminarUsuario(email) {
+            if (!confirm("¿Seguro que quieres eliminar este usuario?")) return;
+            let lista = obtenerUsuarios();
+            lista = lista.filter(u => u.email !== email);
+            guardarUsuarios(lista);
+            renderizarTablaUsuarios();
+        }
+
+        function limpiarFormularioUsuario() {
+            document.getElementById("titulo-form-usuario").textContent = "Agregar nuevo usuario";
+            document.getElementById("form-usuario").reset();
+            document.getElementById("user-correo-original").value = "";
+            document.getElementById("btn-cancelar-edicion-usuario").style.display = "none";
+            document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+        }
+
+        document.getElementById("btn-cancelar-edicion-usuario").addEventListener("click", limpiarFormularioUsuario);
+
+        document.getElementById("form-usuario").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let valido = true;
+            document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+
+            const correoOriginal = document.getElementById("user-correo-original").value;
+            const run = document.getElementById("user-run").value.trim();
+            const nombre = document.getElementById("user-nombre").value.trim();
+            const correo = document.getElementById("user-correo").value.trim().toLowerCase();
+            const direccion = document.getElementById("user-direccion").value.trim();
+            const tipo = document.getElementById("user-tipo").value;
+
+            if (!esRunValido(run)) {
+                document.getElementById("err-user-run").textContent = "RUN inválido. Formato: 7-8 dígitos + DV (Ej: 19011022K).";
+                valido = false;
+            }
+
+            if (!nombre) {
+                document.getElementById("err-user-nombre").textContent = "El nombre es obligatorio.";
+                valido = false;
+            }
+
+            if (!esCorreoValido(correo)) {
+                document.getElementById("err-user-correo").textContent = "Correo inválido. Permitidos: @duoc.cl, @profesor.duoc.cl, @gmail.com.";
+                valido = false;
+            }
+
+            if (!direccion) {
+                document.getElementById("err-user-direccion").textContent = "La dirección es obligatoria.";
+                valido = false;
+            }
+
+            if (!valido) return;
+
+            let lista = obtenerUsuarios();
+            lista = lista.filter(u => u.email !== correoOriginal && u.email !== correo);
+            lista.push({ run, nombre, email: correo, direccion, tipo });
+
+            guardarUsuarios(lista);
+            renderizarTablaUsuarios();
+            limpiarFormularioUsuario();
+            alert("Usuario guardado con éxito.");
+        });
+
+        renderizarTablaUsuarios();
+    </script>
+</body>
+</html>
