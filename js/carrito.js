@@ -68,7 +68,7 @@ function actualizarHeaderUsuario() {
         const primerNombre = usuarioActivo.nombre.split(" ")[0];
         
         contenedorUsuario.innerHTML = `
-            <span style="font-size:14px;">👤 Hola, <strong>${primerNombre}</strong></span>
+            <span style="font-size:14px;"> Hola, <strong>${primerNombre}</strong></span>
             <button onclick="cerrarSesion()" style="background:none; border:none; color:#dc3545; cursor:pointer; font-size:13px; text-decoration:underline; margin-left:6px;">Salir</button>
         `;
     } else {
