@@ -74,10 +74,12 @@
         </section>
     </footer>
 
-    <script src="js/carrito.js"></script>
+   <script src="js/carrito.js"></script>
+    <script src="js/validaciones.js"></script>
     <script>
         document.getElementById("form-login").addEventListener("submit", function(e) {
             e.preventDefault();
+            let valido = true;
 
             document.getElementById("err-login-correo").textContent = "";
             document.getElementById("err-login-pass").textContent = "";
@@ -85,14 +87,28 @@
             const correo = document.getElementById("login-correo").value.trim().toLowerCase();
             const pass = document.getElementById("login-pass").value;
 
+            // Validación de correo
             if (!correo) {
                 document.getElementById("err-login-correo").textContent = "Ingresa tu correo.";
-                return;
+                valido = false;
+            } else if (correo.length > 100) {
+                document.getElementById("err-login-correo").textContent = "El correo no puede superar los 100 caracteres.";
+                valido = false;
+            } else if (!esCorreoValido(correo)) {
+                document.getElementById("err-login-correo").textContent = "Correo inválido. Permitidos: @duoc.cl, @profesor.duoc.cl, @gmail.com.";
+                valido = false;
             }
+
+            // Validación de contraseña
             if (!pass) {
                 document.getElementById("err-login-pass").textContent = "Ingresa tu contraseña.";
-                return;
+                valido = false;
+            } else if (pass.length < 4 || pass.length > 10) {
+                document.getElementById("err-login-pass").textContent = "La contraseña debe tener entre 4 y 10 caracteres.";
+                valido = false;
             }
+
+            if (!valido) return;
 
             // Buscar en los usuarios registrados en localStorage
             const usuarios = JSON.parse(localStorage.getItem("usuarios_groove")) || [];
