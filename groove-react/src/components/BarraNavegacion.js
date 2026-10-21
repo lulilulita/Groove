@@ -29,8 +29,17 @@ function BarraNavegacion({ cantidad }) {
             <li className="nav-item">
               <NavLink className="nav-link" to="/productos">Productos</NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/nosotros">Nosotros</NavLink>
+            </li>
+            <li className="nav-item">
+            <NavLink className="nav-link" to="/blogs">Blogs</NavLink>
+            </li>
+            <li className="nav-item">
+            <NavLink className="nav-link" to="/contacto">Contacto</NavLink>
+            </li>
           </ul>
-
+          
           <NavLink className="btn btn-outline-light" to="/carrito">
             🛒 Carrito <span className="badge bg-light text-dark">{cantidad}</span>
           </NavLink>

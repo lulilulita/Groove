@@ -7,6 +7,10 @@ import Carrito from './pages/Carrito';
 import { obtenerCarrito, agregarAlCarrito, eliminarDelCarrito } from './data/carrito';
 import AdminProductos from './pages/AdminProductos';
 import DetalleProducto from './pages/DetalleProducto';
+import Nosotros from './pages/Nosotros';
+import Blogs from './pages/Blogs';
+import DetalleBlog from './pages/DetalleBlog';
+import Contacto from './pages/Contacto';
 
 function App() {
   const [items, setItems] = useState(() => obtenerCarrito());
@@ -31,6 +35,10 @@ function App() {
           <Route path="/carrito" element={<Carrito items={items} onEliminar={manejarEliminar} />} />
           <Route path="/admin" element={<AdminProductos />} />
           <Route path="/producto/:codigo" element={<DetalleProducto onAgregar={manejarAgregar} />} />
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blog/:slug" element={<DetalleBlog />} />
+          <Route path="/contacto" element={<Contacto />} />
         </Routes>
       </main>
     </BrowserRouter>
