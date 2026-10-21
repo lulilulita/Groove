@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { productos } from '../data/productos';
+import { obtenerProductos } from '../data/productosDB';
 import TarjetaProducto from '../components/TarjetaProducto';
 
 function Productos({ onAgregar }) {
+  const productos = obtenerProductos();
   const [busqueda, setBusqueda] = useState('');
 
   const filtrados = productos.filter((p) =>

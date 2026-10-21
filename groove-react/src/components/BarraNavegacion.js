@@ -21,6 +21,9 @@ function BarraNavegacion({ cantidad }) {
         <div className="collapse navbar-collapse" id="menuPrincipal">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
+                <NavLink className="nav-link" to="/admin">Administración</NavLink>
+            </li>
+            <li className="nav-item">
               <NavLink className="nav-link" to="/" end>Home</NavLink>
             </li>
             <li className="nav-item">

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Productos from './pages/Productos';
 import Carrito from './pages/Carrito';
 import { obtenerCarrito, agregarAlCarrito, eliminarDelCarrito } from './data/carrito';
+import AdminProductos from './pages/AdminProductos';
 
 function App() {
   const [items, setItems] = useState(() => obtenerCarrito());
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/productos" element={<Productos onAgregar={manejarAgregar} />} />
           <Route path="/carrito" element={<Carrito items={items} onEliminar={manejarEliminar} />} />
+          <Route path="/admin" element={<AdminProductos />} />
         </Routes>
       </main>
     </BrowserRouter>
