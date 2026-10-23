@@ -58,28 +58,28 @@
                     <img src="https://bwfotovideo.es/wp-content/uploads/2024/11/edicion-limitada-vinilo.jpg" alt="Vinilo edición especial">
                     <h3>Vinilo Edición Especial</h3>
                     <p class="precio">$15.000</p>
-                    <button class="btn-agregar" onclick="agregarConAlerta('PROD-001', 'Vinilo Edición Especial', 15000)">Añadir</button>
+                    <button class="btn-añadir" onclick="agregarConAlerta('VIN-001', 'Vinilo Edición Especial', 15000)">Añadir</button>
                 </div>
 
                 <div class="producto-card">
                     <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSXsSInFgZHosS_EH9yuk35X-imBNwrRggnG7bEGKpU0LwQLbUZg4ad71UwjlFn" alt="Tornamesa clásica">
                     <h3>Tornamesa Clásica</h3>
                     <p class="precio">$89.990</p>
-                    <button class="btn-agregar" onclick="agregarConAlerta('PROD-002', 'Tornamesa Clásica', 89990)">Añadir</button>
+                    <button class="btn-añadir" onclick="agregarConAlerta('TOR-001', 'Tornamesa Clásica', 89990)">Añadir</button>
                 </div>
 
                 <div class="producto-card">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8wO5FC3z3i0AsLidA2KCAnAgRGyGdm0jjb91gDaYDOA&s=10" alt="Kit de limpieza">
                     <h3>Kit de Limpieza</h3>
                     <p class="precio">$8.500</p>
-                    <button class="btn-agregar" onclick="agregarConAlerta('PROD-003', 'Kit de Limpieza', 8500)">Añadir</button>
+                    <button class="btn-añadir" onclick="agregarConAlerta('KIT-001', 'Kit de Limpieza', 8500)">Añadir</button>
                 </div>
 
                 <div class="producto-card">
                     <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTNn8KUOiyhTGkPVqwaDfpvqV4KZ5T1Aoc9Uz5gumHmhTNoIFoJrx3EpC-fO7GEJrxx9PGJbpU6kyDeRBxgLanV9x2fgF9NtjUP5NEAHX6V7uM9avBgdZW_WabBFBwnVwxDg66qJA&usqp=CAc" alt="Aguja de repuesto">
                     <h3>Aguja de Repuesto</h3>
                     <p class="precio">$12.000</p>
-                    <button class="btn-agregar" onclick="agregarConAlerta('PROD-004', 'Aguja de Repuesto', 12000)">Añadir</button>
+                    <button class="btn-añadir" onclick="agregarConAlerta('AGU-001', 'Aguja de Repuesto', 12000)">Añadir</button>
                 </div>
             </div>
 
@@ -127,13 +127,10 @@
 
     <script>
         function agregarConAlerta(codigo, nombre, precio) {
-            if (typeof agregarAlCarrito === "function") {
-                agregarAlCarrito(codigo, nombre, precio, 1);
-                alert(`¡"${nombre}" añadido al carrito!`);
-            } else {
-                alert("Error: No se encuentra cargado el archivo js/carrito.js");
-            }
-        }
+    if (typeof agregarAlCarrito === "function") {
+        agregarAlCarrito(codigo, nombre, precio, 1);
+    }
+}
     </script>
 </body>
 </html>
