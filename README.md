@@ -1,2 +1,2 @@
 # Groove
-Poryecto fullstack
+¡¡Tu tienda de vinilos favorita!!
